@@ -3,6 +3,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const UserProfileClient = () => {
   const { data: session } = useSession();
@@ -16,10 +17,12 @@ const UserProfileClient = () => {
   return (
     <div className="h-screen flex items-center justify-center">
       <div className="text-center">
-        <img
-          src={user.image || "/user-avatar.png"}
-          alt="User Image"
-          className="w-32 h-32 mx-auto rounded-full"
+        <Image
+          src={session.user?.image || "/user-avatar.png"}
+          alt="user image"
+          className="rounded-full"
+          width={200}
+          height={200}
         />
         <h1 className="text-2xl font-bold mt-4">Welcome, {user.username}</h1>
         <p className="text-lg mt-2">{user.role}</p>

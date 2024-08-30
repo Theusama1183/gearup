@@ -34,6 +34,10 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         await connect();
+        if (!credentials?.email || !credentials?.password) {
+          return null; // Handle missing credentials
+        }
+
         try {
           const user = await User.findOne({ email: credentials.email });
           if (
@@ -111,7 +115,7 @@ export const authOptions: NextAuthOptions = {
           }
         }
       }
-      session.user.id = token.sub;
+      session.user.id = token.sub!;
       return session;
     },
   },

@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="bg-white px-8 fixed w-full top-0">
+      <header className=" px-8 fixed w-full top-0">
         <nav
           className="mx-auto w-full flex items-center justify-between py-5"
           aria-label="Global"
