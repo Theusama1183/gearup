@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { FaBars } from "react-icons/fa";
@@ -13,6 +13,7 @@ const Navbar = () => {
   const { data: session }: any = useSession();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showUserProfilePopup, setShowUserProfilePopup] = useState(false);
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -60,31 +61,84 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <div className="flex flex-col">
-                  <span className="ml-10 text-sm">{session.user?.email}</span>
-                  <span className="ml-10 text-sm">{session.user?.role}</span>
-                </div>
+                <div className="relative flex flex-col">
+                  {/* user image if user not have image show default image here */}
+                  <Button
+                    variant={"ghost"}
+                    className="rounded-full"
+                    size={"icon"}
+                    aria-label={"user image"}
+                    onClick={() =>
+                      setShowUserProfilePopup(!showUserProfilePopup)
+                    }
+                  >
+                    <Image
+                      src={session.user?.image || "/user-avatar.png"}
+                      alt="user image"
+                      width={50}
+                      height={50}
+                    />
+                  </Button>
 
-                <button
-                  onClick={() => {
-                    signOut();
-                  }}
-                  className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
-                >
-                  Log out
-                </button>
+                  {/* User Profile Popup */}
+                  {showUserProfilePopup && (
+                    <div className="absolute mt-12 px-5 py-2 bg-white border rounded shadow-lg user-profile-popup">
+                      <div className="flex py-3">
+                        <div className="block">
+                          <Image
+                            src={session.user?.image || "/user-avatar.png"}
+                            alt="user image"
+                            width={50}
+                            height={50}
+                          />
+                        </div>
+                        <div className="block pl-3">
+                          <p className="block text-sm font-bold">
+                            {session.user?.email}
+                          </p>
+                          <p className="block text-sm">{session.user?.role}</p>
+                        </div>
+                      </div>
+                      <ul className="my-3 pt-5  border-t">
+                        <li>
+                          <Link className="block py-2 text-sm" href="/profile">
+                            Profile
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="block py-2 text-sm"
+                            href="/edit-profile"
+                          >
+                            Setting
+                          </Link>
+                        </li>
+                        <li className="border-t mt-3 pt-2">
+                          <Button
+                            variant={"ghost"}
+                            className="block p-0 hover:bg-transparent text-sm"
+                            onClick={() => {
+                              signOut();
+                            }}
+                          >
+                            Log out
+                          </Button>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </>
             )}
           </div>
           <div className="flex lg:hidden">
-            <button
-              type="button"
+            <Button
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
               <FaBars className="h-6 w-6" aria-hidden="true" />
-            </button>
+            </Button>
           </div>
         </nav>
         <Dialog
@@ -100,14 +154,14 @@ const Navbar = () => {
                 <span>GearUp</span>
               </Link>
               {session ? (
-                <button
+                <Button
                   onClick={() => {
                     signOut();
                   }}
                   className="ml-auto rounded-md bg-black border border-1 border-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Log out
-                </button>
+                </Button>
               ) : (
                 <Link
                   href="/register"
@@ -117,14 +171,13 @@ const Navbar = () => {
                 </Link>
               )}
 
-              <button
-                type="button"
+              <Button
                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
                 <FaXmark className="h-6 w-6" aria-hidden="true" />
-              </button>
+              </Button>
             </div>
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
