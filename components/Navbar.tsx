@@ -61,11 +61,11 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <div className="relative flex flex-col">
+                <div className="relative flex flex-col ">
                   {/* user image if user not have image show default image here */}
                   <Button
                     variant={"ghost"}
-                    className="rounded-full"
+                    className="rounded-full "
                     size={"icon"}
                     aria-label={"user image"}
                     onClick={() =>
@@ -83,7 +83,7 @@ const Navbar = () => {
                   {/* User Profile Popup */}
                   {showUserProfilePopup && (
                     <div className="absolute mt-12 px-5 py-2 bg-white border rounded shadow-lg user-profile-popup">
-                      <div className="flex py-3">
+                      <div className="flex py-3 items-center">
                         <div className="block">
                           <Image
                             src={session.user?.image || "/user-avatar.png"}
@@ -131,9 +131,9 @@ const Navbar = () => {
               </>
             )}
           </div>
-          <div className="flex lg:hidden">
+          <div className="flex lg:hidden ml-5">
             <Button
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
@@ -148,31 +148,13 @@ const Navbar = () => {
           onClose={setMobileMenuOpen}
         >
           <div className="fixed inset-0 z-10" />
-          <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center gap-x-6">
+          <Dialog.Panel className="fixed inset-y-0 left-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
+            <div className="flex items-center justify-between gap-x-6">
               <Link href="/" className="-m-1.5 p-1.5">
                 <span>GearUp</span>
               </Link>
-              {session ? (
-                <Button
-                  onClick={() => {
-                    signOut();
-                  }}
-                  className="ml-auto rounded-md bg-black border border-1 border-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Log out
-                </Button>
-              ) : (
-                <Link
-                  href="/register"
-                  className="ml-auto rounded-md bg-black border border-1 border-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Get Started
-                </Link>
-              )}
-
               <Button
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                className="-m-2.5 rounded-md p-2.5 text-white"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
