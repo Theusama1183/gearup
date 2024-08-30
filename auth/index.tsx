@@ -58,8 +58,8 @@ export const authOptions: any = {
             const username = user.email.split("@")[0];
             const newUser = new User({
               email: user.email,
-              username, // Set the generated username
-              role: "customer", // Default role
+              username,
+              role: "customer",
             });
             await newUser.save();
           }
@@ -77,7 +77,7 @@ export const authOptions: any = {
       const dbUser = await User.findOne({ email: session.user.email });
       if (dbUser) {
         session.user.role = dbUser.role;
-        session.user.username = dbUser.username; // Include username in session
+        session.user.username = dbUser.username;
       }
       return session;
     },

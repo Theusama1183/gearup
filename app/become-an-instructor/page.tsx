@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 const RegisterPage = () => {
   const [error, setError] = useState("");
-  const [role, setRole] = useState("customer");
+  const [role, setRole] = useState("instructor");
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
 
@@ -78,7 +78,7 @@ const RegisterPage = () => {
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="flex justify-center flex-col items-center">
           <h2 className="mt-6 text-center text-2xl leading-9 tracking-tight text-gray-900">
-            Sign up
+            Sign up to Become an Instructor
           </h2>
         </div>
 

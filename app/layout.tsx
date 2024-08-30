@@ -26,10 +26,8 @@ export default async function RootLayout({
       <body className={inter.className}>
         <SessionProvider session={session}>
           <SessionWrapper>
-            <div className="mx-auto max-w-5xl text-2xl gap-2 mb-10">
-              <Navbar /> {/* Wrap children with SessionWrapper */}
-              <Providers>{children}</Providers>
-            </div>
+            <Navbar /> {/* Wrap children with SessionWrapper */}
+            <Providers>{children}</Providers>
           </SessionWrapper>
         </SessionProvider>
       </body>

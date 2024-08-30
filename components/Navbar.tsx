@@ -23,7 +23,7 @@ const Navbar = () => {
     <>
       <header className="bg-white">
         <nav
-          className="mx-auto w-full flex items-center justify-between gap-x-6 p-6 lg:px-8"
+          className="mx-auto w-full flex items-center justify-between py-5"
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
@@ -46,21 +46,24 @@ const Navbar = () => {
             {!session ? (
               <>
                 <Link
-                  href="/login"
+                  href="/become-an-instructor"
                   className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
                 >
-                  Log in
+                  Become an Intructor
                 </Link>
                 <Link
                   href="/register"
                   className="rounded-md bg-black px-3 py-2 border border-gray-500 border-1 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign up
+                  Get Started
                 </Link>
               </>
             ) : (
               <>
-                <span className="ml-10 text-sm">{session.user?.email}</span>
+                <div className="flex flex-col">
+                  <span className="ml-10 text-sm">{session.user?.email}</span>
+                  <span className="ml-10 text-sm">{session.user?.role}</span>
+                </div>
 
                 <button
                   onClick={() => {
@@ -94,13 +97,7 @@ const Navbar = () => {
           <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center gap-x-6">
               <Link href="/" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <Image
-                  width={50}
-                  height={50}
-                  src="/logo 1.png"
-                  alt="star logo mobile"
-                />
+                <span className="sr-only">GearUp</span>
               </Link>
               {session ? (
                 <button
@@ -116,7 +113,7 @@ const Navbar = () => {
                   href="/register"
                   className="ml-auto rounded-md bg-black border border-1 border-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign up
+                  Get Started
                 </Link>
               )}
 

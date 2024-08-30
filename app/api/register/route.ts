@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: any) => {
-  const { email, password, role = "customer" } = await request.json(); // Default role to "customer"
+  const { email, password, role = "Instructor" } = await request.json(); // Default role to "customer"
 
   await connect();
 
