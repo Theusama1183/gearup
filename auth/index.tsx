@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions, Session } from "next-auth";
 import { Account, User as AuthUser } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 import { User } from "@/models/Schema";
 import { connect } from "@/utils/db";
 
-export const authOptions: any = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -16,7 +16,7 @@ export const authOptions: any = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials) {
         await connect();
         try {
           const user = await User.findOne({ email: credentials.email });
@@ -27,8 +27,9 @@ export const authOptions: any = {
             return user;
           }
           return null;
-        } catch (err: any) {
-          throw new Error(err);
+        } catch (err) {
+          console.error("Error in authorize:", err);
+          throw new Error("Authorization failed");
         }
       },
     }),
@@ -42,7 +43,7 @@ export const authOptions: any = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account }: { user: AuthUser; account: Account }) {
+    async signIn({ user, account }) {
       await connect();
 
       if (account?.provider === "google") {
@@ -50,42 +51,39 @@ export const authOptions: any = {
           const existingUser = await User.findOne({ email: user.email });
 
           if (!existingUser) {
-            // Generate username from email
             const username = user.email?.split("@")[0] || "user";
 
-            // Create a new user with Google avatar
             const newUser = new User({
               email: user.email,
               username,
               role: "customer",
-              avatar: user.image, // Save the Google avatar URL
+              avatar: user.image,
             });
             await newUser.save();
           } else if (!existingUser.avatar) {
-            // Update existing user with Google avatar if not already set
             existingUser.avatar = user.image;
             await existingUser.save();
           }
 
           return true;
         } catch (err) {
-          console.log("Error saving user", err);
+          console.error("Error saving user during signIn:", err);
           return false;
         }
       }
 
       return true;
     },
-    async session({ session, token }: { session: any; token: any }) {
+    async session({ session, token }) {
       await connect();
 
       const dbUser = await User.findOne({ email: session.user.email });
       if (dbUser) {
         session.user.role = dbUser.role;
         session.user.username = dbUser.username;
-        session.user.avatar = dbUser.avatar || "/images/user-avatar.png"; // Default to placeholder image if no avatar
+        session.user.avatar = dbUser.avatar || "/images/user-avatar.png";
       }
-
+      session.user.id = token.sub;
       return session;
     },
   },

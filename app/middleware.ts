@@ -21,5 +21,5 @@ function checkAuthentication(request: NextRequest): boolean {
 }
 
 export const config = {
-  matcher: ["/protected/**", "/dashboard/**"],
+  matcher: ["/protected/**", "/dashboard/**", "/user/**"],
 };

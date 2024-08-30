@@ -17,7 +17,10 @@ const Navbar = () => {
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Dashboard", href: "/dashboard" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+    { name: "FAQ", href: "/faq" },
+    { name: "Blog", href: "/blog" },
   ];
 
   return (
@@ -29,15 +32,15 @@ const Navbar = () => {
         >
           <div className="flex lg:flex-1">
             <Link href="/" className="-m-1.5 p-1.5">
-              GearUp
+              <h2 className="text-4xl font-bold">GearUp</h2>
             </Link>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden lg:flex lg:gap-x-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-semibold leading-6 text-gray-900"
+                className="text-sm font-semibold leading-6 text-gray-900 hover:text-primary hover:bg-primary-100 py-2 px-4 rounded-sm"
               >
                 {item.name}
               </Link>
@@ -52,10 +55,7 @@ const Navbar = () => {
                 >
                   Become an Intructor
                 </Link>
-                <Link
-                  href="/register"
-                  className="rounded-md bg-black px-3 py-2 border border-gray-500 border-1 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
+                <Link href="/register" className="btn-primary">
                   Get Started
                 </Link>
               </>
@@ -75,6 +75,7 @@ const Navbar = () => {
                     <Image
                       src={session.user?.image || "/user-avatar.png"}
                       alt="user image"
+                      className="rounded-full"
                       width={50}
                       height={50}
                     />
@@ -83,31 +84,27 @@ const Navbar = () => {
                   {/* User Profile Popup */}
                   {showUserProfilePopup && (
                     <div className="absolute mt-12 px-5 py-2 bg-white border rounded shadow-lg user-profile-popup">
-                      <div className="flex py-3 items-center">
+                      <div className="py-3">
                         <div className="block">
-                          <Image
-                            src={session.user?.image || "/user-avatar.png"}
-                            alt="user image"
-                            width={50}
-                            height={50}
-                          />
-                        </div>
-                        <div className="block pl-3">
                           <p className="block text-sm font-bold">
                             {session.user?.email}
                           </p>
                           <p className="block text-sm">{session.user?.role}</p>
                         </div>
                       </div>
-                      <ul className="my-3 pt-5  border-t">
+                      <ul className="pt-3  border-t">
                         <li>
-                          <Link className="block py-2 text-sm" href="/profile">
+                          <Link
+                            className="block py-2 px-2 rounded-sm text-sm w-full hover:bg-primary-100 hover:text-primary"
+                            // this link should be user profile /user/{session.user?.username}
+                            href={`/user/${session.user?.username}`}
+                          >
                             Profile
                           </Link>
                         </li>
                         <li>
                           <Link
-                            className="block py-2 text-sm"
+                            className="block py-2 px-2 rounded-sm text-sm w-full hover:bg-primary-100 hover:text-primary"
                             href="/edit-profile"
                           >
                             Setting
@@ -116,7 +113,7 @@ const Navbar = () => {
                         <li className="border-t mt-3 pt-2">
                           <Button
                             variant={"ghost"}
-                            className="block p-0 hover:bg-transparent text-sm"
+                            className="block p-0 hover:bg-transparent text-sm px-2 rounded-sm text-left w-full hover:bg-primary-100 hover:text-primary"
                             onClick={() => {
                               signOut();
                             }}
@@ -133,7 +130,7 @@ const Navbar = () => {
           </div>
           <div className="flex lg:hidden ml-5">
             <Button
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 bg-transparent text-secondary"
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
@@ -151,10 +148,10 @@ const Navbar = () => {
           <Dialog.Panel className="fixed inset-y-0 left-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between gap-x-6">
               <Link href="/" className="-m-1.5 p-1.5">
-                <span>GearUp</span>
+                <h2 className="text-4xl font-bold">GearUp</h2>
               </Link>
               <Button
-                className="-m-2.5 rounded-md p-2.5 text-white"
+                className="-m-2.5 rounded-md p-2.5 bg-transparent text-secondary"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
@@ -168,7 +165,7 @@ const Navbar = () => {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      className="-mx-3 block text-base font-semibold leading-7 text-gray-900 hover:text-primary  hover:bg-primary-100 py-2 px-4 rounded-sm"
                     >
                       {item.name}
                     </Link>
