@@ -1,11 +1,27 @@
-import NextAuth, { NextAuthOptions, Session } from "next-auth";
-import { Account, User as AuthUser } from "next-auth";
+// auth/index.tsx
+
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { User } from "@/models/Schema";
+import { User, Customer, Instructor } from "@/models/Schema";
 import { connect } from "@/utils/db";
+
+// Extend the NextAuth session type
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      username?: string;
+      image?: string;
+      role: string;
+      customerDetails?: any; // Adjust these types as needed
+      instructorDetails?: any; // Adjust these types as needed
+    };
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -57,11 +73,11 @@ export const authOptions: NextAuthOptions = {
               email: user.email,
               username,
               role: "customer",
-              avatar: user.image,
+              image: user.image,
             });
             await newUser.save();
-          } else if (!existingUser.avatar) {
-            existingUser.avatar = user.image;
+          } else if (!existingUser.image) {
+            existingUser.image = user.image;
             await existingUser.save();
           }
 
@@ -81,7 +97,19 @@ export const authOptions: NextAuthOptions = {
       if (dbUser) {
         session.user.role = dbUser.role;
         session.user.username = dbUser.username;
-        session.user.avatar = dbUser.avatar || "/images/user-avatar.png";
+        session.user.image = dbUser.image || session.user?.image;
+
+        if (dbUser.role === "customer") {
+          const customer = await Customer.findOne({ user: dbUser._id });
+          if (customer) {
+            session.user.customerDetails = customer.toObject();
+          }
+        } else if (dbUser.role === "instructor") {
+          const instructor = await Instructor.findOne({ user: dbUser._id });
+          if (instructor) {
+            session.user.instructorDetails = instructor.toObject();
+          }
+        }
       }
       session.user.id = token.sub;
       return session;

@@ -7,6 +7,7 @@ const { Schema } = mongoose;
 // User Schema - Base schema for both customers and instructors
 const userSchema = new Schema(
   {
+    _id: mongoose.Schema.Types.ObjectId,
     email: {
       type: String,
       unique: true,
@@ -36,6 +37,7 @@ const User = mongoose.models.User || mongoose.model("User", userSchema);
 // Customer Schema
 const customerSchema = new Schema(
   {
+    _id: mongoose.Schema.Types.ObjectId,
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -93,6 +95,7 @@ const Customer =
 // Instructor Schema
 const instructorSchema = new Schema(
   {
+    _id: mongoose.Schema.Types.ObjectId,
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -171,6 +174,7 @@ const Instructor =
 // Booking Schema
 const bookingSchema = new Schema(
   {
+    _id: mongoose.Schema.Types.ObjectId,
     customer: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
@@ -200,6 +204,7 @@ const Booking =
 // Review Schema
 const reviewSchema = new Schema(
   {
+    _id: mongoose.Schema.Types.ObjectId,
     customer: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
@@ -228,6 +233,7 @@ const Review = mongoose.models.Review || mongoose.model("Review", reviewSchema);
 // Payment Schema
 const paymentSchema = new Schema(
   {
+    _id: mongoose.Schema.Types.ObjectId,
     booking: {
       type: Schema.Types.ObjectId,
       ref: "Booking",
