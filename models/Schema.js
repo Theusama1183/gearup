@@ -82,7 +82,6 @@ const customerSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: ["male", "female", "other"],
       required: true,
     },
   },
@@ -140,7 +139,6 @@ const instructorSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: ["male", "female", "other"],
       required: true,
     },
     skils: {
@@ -153,7 +151,6 @@ const instructorSchema = new Schema(
     },
     availability: {
       type: String,
-      enum: ["all day", "morning", "afternoon", "night"],
       required: true,
     },
     availabilityDuration: {

@@ -90,6 +90,7 @@ const Navbar = () => {
                             {session.user?.email}
                           </p>
                           <p className="block text-sm">{session.user?.role}</p>
+                          <p className="block text-sm">{session.user?.id}</p>
                         </div>
                       </div>
                       <ul className="pt-3  border-t">
